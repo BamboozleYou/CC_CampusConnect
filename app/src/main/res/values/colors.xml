@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_dark">#0D0D0D</color>
+    <color name="bg_card">#1A1A1A</color>
+    <color name="bg_card_news">#0D2B2B</color>
+    <color name="accent_teal">#2DD4BF</color>
+    <color name="accent_teal_dim">#1A3A38</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#AAAAAA</color>
+    <color name="text_date">#AAAAAA</color>
+    <color name="badge_completed_bg">#2A2A2A</color>
+    <color name="badge_price_text">#F59E0B</color>
+    <color name="tag_bg">#1E3A3A</color>
+    <color name="search_bg">#1E1E1E</color>
+    <color name="white">#FFFFFF</color>
+    <color name="background">#0D0D0D</color>
+    <color name="card_bg">#1A1A1A</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_grey">#AAAAAA</color>
+    <color name="gold">#F59E0B</color>
+    <color name="teal_primary">#2DD4BF</color>
+</resources>
