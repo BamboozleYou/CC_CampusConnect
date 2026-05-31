@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Slightly lighter than bg_card so the shimmer sweep reads on the dark theme -->
+    <solid android:color="@color/badge_completed_bg" />
+    <corners android:radius="6dp" />
+</shape>

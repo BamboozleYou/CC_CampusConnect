@@ -12,10 +12,16 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mad.cc_campusconnect.databinding.ActivityEventDetailBinding
+import com.mad.cc_campusconnect.feedback.FeedbackBottomSheet
 import com.mad.cc_campusconnect.models.Event
 import com.mad.cc_campusconnect.utils.UserRepository
+import com.mad.cc_campusconnect.utils.showError
+import com.mad.cc_campusconnect.utils.showSuccess
 import kotlinx.coroutines.launch
 import java.util.Locale
+import androidx.core.app.ShareCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 class EventDetailActivity : AppCompatActivity() {
 
@@ -33,13 +39,40 @@ class EventDetailActivity : AppCompatActivity() {
         binding = ActivityEventDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            insets
+        }
+
         eventId = intent.getStringExtra(EXTRA_EVENT_ID) ?: run { finish(); return }
         collection = intent.getStringExtra(EXTRA_COLLECTION) ?: "events"
 
         binding.btnBack.setOnClickListener { finish() }
         binding.btnRegister.setOnClickListener { toggleRegistration() }
         binding.btnInstagram.setOnClickListener { openInstagram() }
-        binding.btnSubmitFeedback.setOnClickListener { submitFeedback() }
+        binding.btnShare.setOnClickListener { shareEvent() }
+
+        // Feedback is now collected in a bottom sheet. Open it on tap…
+        binding.btnLeaveFeedback.setOnClickListener {
+            FeedbackBottomSheet
+                .newInstance(collection = collection, eventId = eventId)
+                .show(supportFragmentManager, "feedback")
+        }
+
+        // …and listen once for the sheet's result so we can refresh the summary.
+        supportFragmentManager.setFragmentResultListener(
+            FeedbackBottomSheet.RESULT_KEY, this
+        ) { _, bundle ->
+            val ok = bundle.getBoolean(FeedbackBottomSheet.RESULT_OK)
+            val msg = bundle.getString(FeedbackBottomSheet.RESULT_MSG).orEmpty()
+            if (ok) {
+                refreshFeedbackSummary()
+                binding.root.showSuccess(msg)
+            } else {
+                binding.root.showError(msg)
+            }
+        }
 
         loadEvent()
     }
@@ -64,7 +97,6 @@ class EventDetailActivity : AppCompatActivity() {
                 displayEvent(e)
                 refreshRegistrationState()
                 refreshFeedbackSummary()
-                loadUserFeedback()
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Load failed: ${it.message}", Toast.LENGTH_LONG).show()
@@ -72,6 +104,19 @@ class EventDetailActivity : AppCompatActivity() {
             }
     }
 
+    private fun shareEvent() {
+        val e = event ?: return    // event is loaded by loadEvent(); guard against early taps
+
+        // Formatted message exactly as specified
+        val message = "Hey, check out ${e.title} by ${e.organizer} at BMSCE! " +
+                "Download Campus Connect to register."
+
+        ShareCompat.IntentBuilder(this)
+            .setType("text/plain")
+            .setChooserTitle("Share ${e.title}")
+            .setText(message)
+            .startChooser()        // shows the system share sheet
+    }
     private fun displayEvent(event: Event) {
         binding.tvTitle.text = event.title
         binding.tvOrganizer.text = event.organizer
@@ -180,7 +225,7 @@ class EventDetailActivity : AppCompatActivity() {
         }
     }
 
-    // ============ Feedback ============
+    // ============ Feedback (summary only — input lives in FeedbackBottomSheet) ============
 
     private fun refreshFeedbackSummary() {
         db.collection(collection).document(eventId).collection("feedback").get()
@@ -202,55 +247,6 @@ class EventDetailActivity : AppCompatActivity() {
                     avg, count, if (count == 1) "review" else "reviews"
                 )
             }
-    }
-
-    private fun loadUserFeedback() {
-        val uid = auth.currentUser?.uid ?: return
-        db.collection(collection).document(eventId)
-            .collection("feedback").document(uid).get()
-            .addOnSuccessListener { snap ->
-                if (snap.exists()) {
-                    val rating = snap.getDouble("rating") ?: 0.0
-                    val comment = snap.getString("comment") ?: ""
-                    binding.rbFeedback.rating = rating.toFloat()
-                    binding.etComment.setText(comment)
-                    binding.btnSubmitFeedback.text = "UPDATE FEEDBACK"
-                }
-            }
-    }
-
-    private fun submitFeedback() {
-        val uid = auth.currentUser?.uid ?: return
-        val rating = binding.rbFeedback.rating.toDouble()
-        val comment = binding.etComment.text.toString().trim()
-
-        if (rating <= 0) {
-            Toast.makeText(this, "Please give a star rating", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        binding.btnSubmitFeedback.isEnabled = false
-        lifecycleScope.launch {
-            val user = UserRepository.getCurrentUser()
-            val data = hashMapOf(
-                "userName" to (user?.name ?: ""),
-                "rating" to rating,
-                "comment" to comment,
-                "timestamp" to System.currentTimeMillis()
-            )
-            db.collection(collection).document(eventId)
-                .collection("feedback").document(uid).set(data)
-                .addOnSuccessListener {
-                    binding.btnSubmitFeedback.isEnabled = true
-                    binding.btnSubmitFeedback.text = "UPDATE FEEDBACK"
-                    Toast.makeText(this@EventDetailActivity, "Thanks for your feedback!", Toast.LENGTH_SHORT).show()
-                    refreshFeedbackSummary()
-                }
-                .addOnFailureListener { e ->
-                    binding.btnSubmitFeedback.isEnabled = true
-                    Toast.makeText(this@EventDetailActivity, "Failed: ${e.message}", Toast.LENGTH_LONG).show()
-                }
-        }
     }
 
     companion object {

@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Rounded top corners + dark background for all bottom sheets -->
+    <style name="ShapeAppearance.CC.BottomSheet" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerSizeTopRight">20dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
 
+    <style name="Widget.CC.BottomSheet" parent="Widget.Material3.BottomSheet">
+        <item name="backgroundTint">@color/bg_card</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.CC.BottomSheet</item>
+    </style>
+
+    <style name="ThemeOverlay.CC.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.CC.BottomSheet</item>
+    </style>
     <style name="Theme.CCCampusConnect" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/accent_teal</item>
         <item name="colorOnPrimary">@color/bg_dark</item>

@@ -170,6 +170,68 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- ============ CATEGORY ============ -->
+        <TextView
+            android:id="@+id/tvCategoryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="18dp"
+            android:text="Category"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilTitle" />
+
+        <HorizontalScrollView
+            android:id="@+id/categoryScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/tvCategoryLabel">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="true"
+                app:singleSelection="true"
+                app:selectionRequired="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCatTechnical"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Technical" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCatCultural"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cultural" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCatPlacements"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Placements" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCatOther"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Other" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
         <!-- ============ ORGANIZER ============ -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilOrganizer"
@@ -189,7 +251,7 @@
             app:boxStrokeWidth="1dp"
             app:boxStrokeWidthFocused="2dp"
             app:hintTextColor="@color/accent_teal"
-            app:layout_constraintTop_toBottomOf="@id/tilTitle">
+            app:layout_constraintTop_toBottomOf="@id/categoryScroll">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etOrganizer"

@@ -14,6 +14,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+
 
 class AddEventActivity : AppCompatActivity() {
 
@@ -25,6 +28,12 @@ class AddEventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            insets
+        }
 
         collectionName = intent.getStringExtra(EXTRA_COLLECTION) ?: "events"
 
@@ -69,7 +78,13 @@ class AddEventActivity : AppCompatActivity() {
             }
         })
     }
-
+    /** Returns the category label for the currently-checked chip. */
+    private fun selectedCategory(): String = when (binding.chipGroupCategory.checkedChipId) {
+        R.id.chipCatCultural   -> "Cultural"
+        R.id.chipCatPlacements -> "Placements"
+        R.id.chipCatOther      -> "Other"
+        else                   -> "Technical"   // chipCatTechnical / default
+    }
     private fun showDatePicker() {
         val picker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select event date")
@@ -109,6 +124,7 @@ class AddEventActivity : AppCompatActivity() {
             "price" to price,
             "imageUrl" to imageUrl,
             "instagramUrl" to instagramUrl,
+            "category" to selectedCategory(),
             "timestamp" to System.currentTimeMillis()
         )
 

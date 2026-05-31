@@ -31,6 +31,11 @@ android {
 }
 
 dependencies {
+    // 1) Shimmer skeletons (Facebook) — latest stable on Maven Central
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    // 2) Swipe-to-refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")

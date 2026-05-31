@@ -21,14 +21,32 @@
         android:orientation="vertical">
 
         <!-- Cover image -->
-        <ImageView
-            android:id="@+id/ivCover"
+        <!-- Cover image with a bookmark overlay -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            android:background="@color/badge_completed_bg"
-            android:contentDescription="Event cover"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/ic_image_placeholder" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivCover"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:background="@color/badge_completed_bg"
+                android:contentDescription="Event cover"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/ic_image_placeholder" />
+
+            <!-- Bookmark / favourite toggle -->
+            <ImageView
+                android:id="@+id/ivBookmark"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_bookmark_scrim"
+                android:contentDescription="Save for later"
+                android:padding="8dp"
+                android:src="@drawable/ic_heart_outline" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

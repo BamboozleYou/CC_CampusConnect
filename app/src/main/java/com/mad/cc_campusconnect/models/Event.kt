@@ -18,5 +18,9 @@ data class Event(
     val price: String = "",         // e.g. "₹500" or "Free"
     val imageUrl: String = "",
     val instagramUrl: String = "",
+    val category: String = "",
     val timestamp: Long = 0L        // used for ordering (newest first)
-)
+) {
+    val shareText: String
+        get() = "Hey, check out $title by $organizer at BMSCE! Download Campus Connect to register."
+}

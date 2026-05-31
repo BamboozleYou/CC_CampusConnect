@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- ============ HERO IMAGE ============ -->
             <ImageView
                 android:id="@+id/ivCover"
                 android:layout_width="match_parent"
@@ -26,7 +25,6 @@
                 android:contentDescription="Event cover"
                 android:scaleType="centerCrop" />
 
-            <!-- ============ CONTENT ============ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,7 +34,6 @@
                 android:paddingTop="24dp"
                 android:paddingBottom="32dp">
 
-                <!-- Title + Price row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -71,7 +68,6 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <!-- Info card: date, location, registration count -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -156,7 +152,6 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ============ ACTION BUTTONS ============ -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnRegister"
                     android:layout_width="match_parent"
@@ -195,14 +190,12 @@
                     app:strokeColor="#44FFFFFF"
                     app:strokeWidth="1dp" />
 
-                <!-- ============ DIVIDER ============ -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="28dp"
                     android:background="#22FFFFFF" />
 
-                <!-- ============ FEEDBACK ============ -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -211,6 +204,22 @@
                     android:textColor="@color/text_primary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLeaveFeedback"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Leave Feedback"
+                    android:textAllCaps="false"
+                    android:textColor="@color/accent_teal"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp"
+                    app:rippleColor="@color/accent_teal_dim"
+                    app:strokeColor="@color/accent_teal"
+                    app:strokeWidth="1dp" />
 
                 <TextView
                     android:id="@+id/tvAvgRating"
@@ -221,33 +230,10 @@
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp" />
 
-                <RatingBar
-                    android:id="@+id/rbFeedback"
-                    style="?android:attr/ratingBarStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:numStars="5"
-                    android:progressTint="@color/badge_price_text"
-                    android:rating="0"
-                    android:stepSize="1" />
-
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilComment"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="Share your thoughts (optional)"
-                    android:textColorHint="@color/text_secondary"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxStrokeColor="@color/accent_teal"
-                    app:boxStrokeWidth="1dp"
-                    app:boxStrokeWidthFocused="2dp"
-                    app:hintTextColor="@color/accent_teal">
+                    android:layout_marginTop="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etComment"
@@ -262,25 +248,10 @@
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSubmitFeedback"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="12dp"
-                    android:letterSpacing="0.08"
-                    android:text="SUBMIT FEEDBACK"
-                    android:textColor="@color/bg_dark"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/accent_teal"
-                    app:cornerRadius="8dp"
-                    app:rippleColor="#33000000" />
-
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- ============ FLOATING BACK BUTTON ============ -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBack"
         style="@style/Widget.Material3.Button.IconButton"
@@ -298,7 +269,25 @@
         app:iconTint="@color/text_primary"
         app:rippleColor="#33FFFFFF" />
 
-    <!-- ============ LOADING ============ -->
+    <!-- ============ FLOATING SHARE BUTTON ============ -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnShare"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:contentDescription="Share this event"
+        app:backgroundTint="#80000000"
+        app:cornerRadius="22dp"
+        app:icon="@drawable/ic_share"
+        app:iconSize="20dp"
+        app:iconTint="@color/text_primary"
+        app:rippleColor="#33FFFFFF" />
+
     <ProgressBar
         android:id="@+id/loadingBar"
         android:layout_width="wrap_content"
